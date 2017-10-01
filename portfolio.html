@@ -1,283 +1,328 @@
-/*!
- * jQuery wmuSlider v2.1
- * 
- * Copyright (c) 2011 Brice Lechatellier
- * http://brice.lechatellier.com/
- *
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
- */
+<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html>
 
-;(function($) {
-    
-    $.fn.wmuSlider = function(options) {
+<!-- Mirrored from www.imatcomputers.com/portfolio.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 02 Sep 2017 10:51:21 GMT -->
+<head>
+<title>iMat Computers&reg; - Computer Sales &amp; Service  | Yours perfect professional destination - Showroom for branded computers , laptop &amp; tablets - Trichy, India </title>
+<meta http-equiv="description" content="iMat Computers is a branded showroom for all branded computer, laptop, tablets showroom. Also provide laptop chiplevel service and clear all kind of computer harware issues. Simple yours perfect professional destination." />
+<meta http-equiv="keywords" content="imat computers trichy, trichy computer, computer sales trichy, laptop service trichy, chiplevel service, computer sales, computer hardware trichy, motherboard, intel trichy, " />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href='http://fonts.googleapis.com/css?family=Karla' rel='stylesheet' type='text/css'>
+<!-- jQuery -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		
+		var filterList = {
+		
+			init: function () {
+			
+				// MixItUp plugin
+				// http://mixitup.io
+				$('#portfoliolist').mixitup({
+					targetSelector: '.portfolio',
+					filterSelector: '.filter',
+					effects: ['fade'],
+					easing: 'snap',
+					// call the hover effect
+					onMixEnd: filterList.hoverEffect()
+				});				
+			
+			},
+			
+			hoverEffect: function () {
+			
+				// Simple parallax effect
+				$('#portfoliolist .portfolio').hover(
+					function () {
+						$(this).find('.label').stop().animate({bottom: 0}, 200, 'easeOutQuad');
+						$(this).find('img').stop().animate({top: -30}, 500, 'easeOutQuad');				
+					},
+					function () {
+						$(this).find('.label').stop().animate({bottom: -40}, 200, 'easeInQuad');
+						$(this).find('img').stop().animate({top: 0}, 300, 'easeOutQuad');								
+					}		
+				);				
+			
+			}
 
-        /* Default Options
-        ================================================== */       
-        var defaults = {
-            animation: 'fade',
-            animationDuration: 600,
-            slideshow: true,
-            slideshowSpeed: 7000,
-            slideToStart: 0,
-            navigationControl: true,
-            paginationControl: true,
-            previousText: 'Previous',
-            nextText: 'Next',
-            touch: true,
-            slide: 'article',
-            items: 1
-        };
-        var options = $.extend(defaults, options);
-        
-        return this.each(function() {
+		};
+		
+		// Run the show!
+		filterList.init();
+		
+		
+	});	
+	</script>
+<!-- Add fancyBox main JS and CSS files -->
+<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css">
+		<script>
+			$(document).ready(function() {
+				$('.popup-with-zoom-anim').magnificPopup({
+					type: 'inline',
+					fixedContentPos: false,
+					fixedBgPos: true,
+					overflowY: 'auto',
+					closeBtnInside: true,
+					preloader: false,
+					midClick: true,
+					removalDelay: 300,
+					mainClass: 'my-mfp-zoom-in'
+			});
+		});
+		</script>
+</head>
+<body>
+  <div class="header">	
+      <div class="wrap"> 
+	         <div class="logo">
+				<a href="index-2.html"><img src="images/logo.png" alt=""/></a>
+			 </div>
+			 <div class="cssmenu">
+				<ul>
+					
+<li><a href="index-2.html">Home</a></li>
+<li class="active"><a href="portfolio.html">Products</a></li> 
+<li><a href="blog.html">Services</a></li> 
+<li><a href="about.html">About Us</a></li>
+                    
+<li><a href="contact.html">Contact</a></li>
 
-            /* Variables
-            ================================================== */
-            var $this = $(this);
-            var currentIndex = options.slideToStart;
-            var wrapper = $this.find('.wmuSliderWrapper');
-            var slides = $this.find(options.slide);
-            var slidesCount = slides.length;
-            var slideshowTimeout;
-            var paginationControl;
-            var isAnimating;
-            
-            
-            /* Load Slide
-            ================================================== */ 
-            var loadSlide = function(index, infinite, touch) {
-                if (isAnimating) {
-                    return false;
-                }
-                isAnimating = true;
-                currentIndex = index;
-                var slide = $(slides[index]);
-                $this.animate({ height: slide.innerHeight() });
-                if (options.animation == 'fade') {
-                    slides.css({
-                        position: 'absolute',
-                        opacity: 0
-                    });
-                    slide.css('position', 'relative');
-                    slide.animate({ opacity:1 }, options.animationDuration, function() {
-                        isAnimating = false;
-                    });
-                } else if (options.animation == 'slide') {
-                    if (!infinite) {
-                        wrapper.animate({ marginLeft: -$this.width() / options.items * index }, options.animationDuration, function() {
-                            isAnimating = false;
-                        });
-                    } else {
-                        if (index == 0) {
-                            wrapper.animate({ marginLeft: -$this.width() / options.items * slidesCount }, options.animationDuration, function() {
-                                wrapper.css('marginLeft', 0);
-                                isAnimating = false;
-                            });
-                        } else {
-                            if (!touch) {
-                                wrapper.css('marginLeft', -$this.width() / options.items * slidesCount);
-                            }
-                            wrapper.animate({ marginLeft: -$this.width() / options.items * index }, options.animationDuration, function() {
-                                isAnimating = false;
-                            });
-                        }
-                    }
-                }
 
-                if (paginationControl) {
-                    paginationControl.find('a').each(function(i) {
-                        if(i == index) {
-                            $(this).addClass('wmuActive');
-                        } else {
-                            $(this).removeClass('wmuActive');
-                        }
-                    });
-                }    
-                                                    
-                // Trigger Event
-                $this.trigger('slideLoaded', index);             
-            };
-            
-            
-            /* Navigation Control
-            ================================================== */ 
-            if (options.navigationControl) {
-                var prev = $('<a class="wmuSliderPrev">' + options.previousText + '</a>');
-                prev.click(function(e) {
-                    e.preventDefault();
-                    clearTimeout(slideshowTimeout);
-                    if (currentIndex == 0) {
-                        loadSlide(slidesCount - 1, true);
-                    } else {
-                        loadSlide(currentIndex - 1);
-                    }
-                });
-                $this.append(prev);
-                
-                var next = $('<a class="wmuSliderNext">' + options.nextText + '</a>');
-                next.click(function(e) {
-                    e.preventDefault();
-                    clearTimeout(slideshowTimeout);
-                    if (currentIndex + 1 == slidesCount) {    
-                        loadSlide(0, true);
-                    } else {
-                        loadSlide(currentIndex + 1);
-                    }
-                });                
-                $this.append(next);
-            }
-            
+				</ul>
+		     </div>
+		    <div class="clear"></div>
+	   </div>
+  </div>
+    <div class="banner">
+      	<div class="wrap">
+      	    <h2>PRODUCTS</h2> <div class="clear"></div>
+      	</div>
+    </div>
+	<div class="main">	
+	   <div class="portfolio-top">
+		   	<div class="wrap">
+		        <h3>OUR RANGE OF PRODUCTS</h3>
+				<h5>We are in special to make you satisfied with favorite collections</h5>
+			</div>
+		</div>
+		<div class="container">
+		   <ul id="filters" class="clearfix">
+				 <li><span class="filter active" data-filter="app card icon logo web">All</span></li>
+				 <li><span class="filter" data-filter="app">Computers</span></li>
+				 <li><span class="filter" data-filter="card">Laptops</span></li>
+				 <li><span class="filter" data-filter="icon">Tablets</span></li>
+				 <li><span class="filter" data-filter="logo">Accessories</span></li>
+				  
+		   </ul>
+		   <div class="clear"></div>
+		   <div id="portfoliolist" style="     " class="">
+			<div class="wrapper">
+			 			
+			<div class="portfolio app mix_all" data-cat="app" style="  display: inline-block; opacity: 1;">
+				<div class="portfolio-wrapper">			
+					<a href="project.html">
+						<img src="images/a1.jpg" alt="Image 2">
+					</a>
+					<div class="links">
+						<h4><a href="#">Mac Computers Desktops</a></h4> <div class="clear"></div>
+							<ul>
+				  				<li><a href="#"><span>Code No:</span></a></li>
+				  			</ul>
+		  			</div>
+				</div>
+			</div>		
+			<div class="portfolio card mix_all" data-cat="card" style="  display: inline-block; opacity: 1;">
+				<div class="portfolio-wrapper">						
+					<a href="project.html">
+						<img src="images/a2.jpg" alt="Image 2">
+					</a>
+					<div class="links">
+						<h4><a href="#">DELL Inspiration laptops</a></h4> 
+			    <div class="clear"></div>
+							<ul>
+				  				<li><a href="#"><span>Code No: </span></a></li>
+				  			</ul>
+		  			</div>
+				</div>
+			</div>				
+			<div class="portfolio card mix_all" data-cat="card" style="  display: inline-block; opacity: 1;">
+				<div class="portfolio-wrapper">			
+					<a href="project.html">
+						<img src="images/a3.jpg" alt="Image 2">
+					</a>
+					<div class="links">
+						<h4><a href="#">Mac laptops</a></h4><div class="clear"></div>
+							<ul>
+				  				<li><a href="#"><span>Code No:</span></a></li>
+				  			</ul>
+	  			  </div>
+			  </div>
+			</div>	
+			<div class="portfolio icon mix_all" data-cat="icon" style="  display: inline-block; opacity: 1;">
+				<div class="portfolio-wrapper">
+					<a href="project.html">
+						<img src="images/a4.jpg" alt="Image 2">
+					</a>
+					<div class="links">
+						<h4><a href="#">Sony Tablets</a></h4><div class="clear"></div>
+							<ul>
+				  				<li><a href="#"><span>Code No:</span></a></li>
+				  			</ul>
+		  			</div>
+				</div>
+			</div>			
+			 
+			<div class="portfolio logo mix_all" data-cat="logo" style="  display: inline-block; opacity: 1;">
+				<div class="portfolio-wrapper">			
+					<a href="project.html">
+						<img src="images/a5.jpg" alt="Image 2">
+					</a>
+					<div class="links">
+						<h4><a href="#">HP Pendrive 8GB</a></h4><div class="clear"></div>
+							<ul>
+				  				<li><span><a href="#">Code No:</a></span></li>
+				  			</ul>
+		  			</div>
+				</div>
+			</div>	
+			 																																					
+			<div class="portfolio logo mix_all" data-cat="logo" style="  display: inline-block; opacity: 1;">
+				<div class="portfolio-wrapper">			
+					<a href="project.html">
+						<img src="images/a6.jpg" alt="Image 2">
+					</a>
+					<div class="links">
+						<h4><a href="#">Logitech Wireless COMBO Kit </a></h4> <div class="clear"></div>
+							<ul>
+				  				<li><span><a href="#">Code No:</a></span></li>
+				  			</ul>
+		  			</div>
+				</div>
+			</div>														
+			<div class="clear"> </div>
+		</div>			
+	  </div>
+	 </div>
+	</div>
+   <div class="footer">
+	<div class="footer-top">
+	   <div class="wrap">
+		   <div class="section group">
+				<div class="col_1_of_3 span_1_of_3">
+					<h3>About Us</h3>
+					<p>iMat Computers is a branded showroom for all branded computer, laptop, tablets showroom. Also provides laptop chiplevel service and clear all kind of computer hardware issues. Simple yours perfect professional destination.</p>
+				 <br>
 
-            /* Pagination Control
-            ================================================== */ 
-            if (options.paginationControl) {
-                paginationControl = $('<ul class="wmuSliderPagination"></ul>');
-                $.each(slides, function(i) {
-                    paginationControl.append('<li><a href="#">' + i + '</a></li>');
-                    paginationControl.find('a:eq(' + i + ')').click(function(e) {    
-                        e.preventDefault();
-                        clearTimeout(slideshowTimeout);   
-                        loadSlide(i);
-                    });                
-                });
-                $this.append(paginationControl);
-            }
-            
-            
-            /* Slideshow
-            ================================================== */ 
-            if (options.slideshow) {
-                var slideshow = function() {
-                    if (currentIndex + 1 < slidesCount) {
-                        loadSlide(currentIndex + 1);
-                    } else {
-                        loadSlide(0, true);
-                    }
-                    slideshowTimeout = setTimeout(slideshow, options.slideshowSpeed);
-                }
-                slideshowTimeout = setTimeout(slideshow, options.slideshowSpeed);
-            }
-            
-                        
-            /* Resize Slider
-            ================================================== */ 
-            var resize = function() {
-                var slide = $(slides[currentIndex]);
-                $this.animate({ height: slide.innerHeight() });
-                if (options.animation == 'slide') {
-                    slides.css({
-                        width: $this.width() / options.items
-                    });
-                    wrapper.css({
-                        marginLeft: -$this.width() / options.items * currentIndex,
-                        width: $this.width() * slides.length
-                    });                    
-                }    
-            };
-            
-                        
-            /* Touch
-            ================================================== */
-            var touchSwipe = function(event, phase, direction, distance) {
-                clearTimeout(slideshowTimeout);              
-                if(phase == 'move' && (direction == 'left' || direction == 'right')) {
-                    if (direction == 'right') {
-                        if (currentIndex == 0) {
-                            wrapper.css('marginLeft', (-slidesCount * $this.width() / options.items) + distance);
-                        } else {
-                            wrapper.css('marginLeft', (-currentIndex * $this.width() / options.items) + distance);
-                        }
-                    } else if (direction == 'left') {
-                        wrapper.css('marginLeft', (-currentIndex * $this.width() / options.items) - distance);
-                    }
-                } else if (phase == 'cancel' ) {
-                    if (direction == 'right' && currentIndex == 0) {
-                        wrapper.animate({ marginLeft: -slidesCount * $this.width() / options.items }, options.animationDuration);                
-                    } else {
-                        wrapper.animate({ marginLeft: -currentIndex * $this.width() / options.items }, options.animationDuration);  
-                    }
-                } else if (phase == 'end' ) {
-                    if (direction == 'right') {
-                        if (currentIndex == 0) {
-                            loadSlide(slidesCount - 1, true, true);
-                        } else {
-                            loadSlide(currentIndex - 1);
-                        }
-                    } else if (direction == 'left')    {        
-                        if (currentIndex + 1 == slidesCount) {
-                            loadSlide(0, true);
-                        } else {
-                            loadSlide(currentIndex + 1);
-                        }
-                    } else {
-                        wrapper.animate({ marginLeft: -currentIndex * $this.width() / options.items }, options.animationDuration);
-                    }
-                }            
-            };
-            if (options.touch && options.animation == 'slide') {
-                if (!$.isFunction($.fn.swipe)) {
-                    $.ajax({
-                        url: 'jquery.touchSwipe.min.js',
-                        async: false
-                    });
-                }
-                if ($.isFunction($.fn.swipe)) {
-                    $this.swipe({ triggerOnTouchEnd:false, swipeStatus:touchSwipe, allowPageScroll:'vertical' });
-                }
-            }
-            
-            
-            /* Init Slider
-            ================================================== */ 
-            var init = function() {
-                var slide = $(slides[currentIndex]);
-                var img = slide.find('img');
-                img.load(function() {
-                    wrapper.show();
-                    $this.animate({ height: slide.innerHeight() });
-                });
-                if (options.animation == 'fade') {
-                    slides.css({
-                        position: 'absolute',
-                        width: '100%',
-                        opacity: 0
-                    });
-                    $(slides[currentIndex]).css('position', 'relative');
-                } else if (options.animation == 'slide') {
-                    if (options.items > slidesCount) {
-                        options.items = slidesCount;
-                    }
-                    slides.css('float', 'left');                    
-                    slides.each(function(i){
-                        var slide = $(this);
-                        slide.attr('data-index', i);
-                    });
-                    for(var i = 0; i < options.items; i++) {
-                        wrapper.append($(slides[i]).clone());
-                    }
-                    slides = $this.find(options.slide);
-                }
-                resize();
-                
-                $this.trigger('hasLoaded');
-                
-                loadSlide(currentIndex);
-            }
-            init();
-            
-                                                
-            /* Bind Events
-            ================================================== */
-            // Resize
-            $(window).resize(resize);
-            
-            // Load Slide
-            $this.bind('loadSlide', function(e, i) {
-                clearTimeout(slideshowTimeout);
-                loadSlide(i);
-            });
-                        
-        });
-    }
-    
-})(jQuery);
+					<h4>Recent customer</h4>
+					<div class="gallery">
+						<ul>
+							<li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/g1.jpg" alt=""/></a></li>
+							<li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/g2.jpg" alt=""/></a></li>
+							<li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/g3.jpg" alt=""/></a></li>
+							<li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/g4.jpg" alt=""/></a></li>
+							<li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/g5.jpg" alt=""/></a></li>
+							<li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/g6.jpg" alt=""/></a></li>
+							 <div id="small-dialog1" class="mfp-hide">
+								<div class="pop_up">
+								 	<h2>A Sample Photo Stream</h2>
+									<img src="images/g_zoom.jpg" alt=""/>
+					  			</div>
+							</div>
+						</ul>
+					</div>
+				</div>
+				<div class="col_1_of_3 span_1_of_3">
+					<h3>Testimonials</h3>
+					<div class="footer-list">
+						<ul>
+							 <li>
+							   <p>iMat provides best customer support and its our pleasure to be touch with iMat Computers.<br>
+							 <br>
+
+							   <em>  - St. Joseph College, Trichy</em>
+                               </p></li><br>
+
+						</ul><br>
+<br>
+
+					</div><br>
+<br>
+<div class="clear"></div>
+					 <div class="social-icons">	 
+
+					 	<h4>Get us connected </h4>
+						    <ul>	
+							  <li class="facebook"><a href="#"><span> </span></a></li>
+					          <li class="google"><a href="#"><span> </span></a></li>
+					          <li class="twitter"><a href="#"><span> </span></a></li>
+					          <li class="linkedin"><a href="#"><span> </span></a></li>	 
+					          <li class="youtube"><a href="#"><span> </span></a></li>	
+					          <li class="bloger"><a href="#"><span> </span></a></li>
+					          <li class="rss"><a href="#"><span> </span></a></li>	
+					          <li class="dribble"><a href="#"><span> </span></a></li>		        	
+					        </ul>
+				     </div>
+			    </div>
+				<div class="col_1_of_3 span_1_of_3">
+					<h3>Contact us</h3>
+					<div class="footer-list">
+						<ul>
+							<li><p><img src="images/address.png" alt=""/>GEM Plaza, Ground Floor, <br>
+SRC College Road, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Trichy-2. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TAMILNADU.</p><div class="clear"></div></li>
+							<li><p><img src="images/phone.png" alt=""/>0431-4544484 , +91 96777 88994 / 3 / 2 / 1  </p><div class="clear"></div></li>
+							<li>
+							<p><img src="images/msg.png" alt=""/>imatcomputers@gmail.com<span class="yellow"><a href="#"></a></span></p><div class="clear"></div></li>
+					   </ul>
+</div>
+					<div class="follow">
+					   <h4>Get notified</h4>
+					   <p>Get you notified about recent offers and promotional offers of iMat Computers. Please subscribe</p>
+					   <div class="search">
+						  <form>
+							   <input type="text" value="">
+							   <input type="submit" value="">
+						  </form>
+					   </div>
+				    </div>
+				</div>
+				<div class="clear"></div>
+			</div>
+	  </div>
+	 </div>
+	 <div class="footer-bottom">
+	 	<div class="wrap">
+		 	<div class="copy"> <p class="copy">© 2014 iMat Computers | Branding by <a href="http://blackpixon.com/" target="_blank">Black Pixon</a></p>
+		    </div>
+		 	<div class="footer-nav">
+		 		<ul>
+					<li><a href="index-2.html">Home</a></li>
+					<li><a href="portfolio.html">Products</a></li> 
+					<li><a href="blog.html">Services</a></li> 
+					<li><a href="about.html">About Us</a></li>
+                    
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+		 	</div>
+		 	<div class="clear"></div>
+	    </div>
+	</div>
+</div>
+</body>	
+
+<!-- Mirrored from www.imatcomputers.com/portfolio.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 02 Sep 2017 10:55:39 GMT -->
+</html>    		
+             		
+      	   		                                                                                            
